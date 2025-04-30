@@ -1,0 +1,45 @@
+settings_model = {
+    'GCODE': [
+        'filename',
+        ],
+    'PRINTER': [
+        'plate_shape',
+        'plate_size',
+        'printing_speed',
+        'first_inlet_diameter',
+        'last_inlet_diameter',
+        'moving_speed',
+        'retraction',
+        'lift_distance',
+        'x_home',
+        'y_home',
+        'z_home',
+        'purge_nozzle',
+        ],
+    'PURGE SEGMENT': [
+        'purge_x',
+        'purge_y',
+        'is_vertical',
+        'length',
+        'purge_inlet_diameter',
+        ],
+    'SERPENTINE': [
+        'x_width',
+        'y_width',
+        'constant_pitch',
+        'min_pitch',
+        'centered_serpentine',
+        'x_pos',
+        'y_pos',
+        ],
+    'SEGMENT': [
+        'centered_segment',
+        'segment_y_pos',
+        ],
+    'SKETCH':[
+        'layer_height',
+        'layer_width',
+        'number_of_layers',
+        'print_segment',
+        ],
+}
