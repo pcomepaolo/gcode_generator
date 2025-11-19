@@ -6,9 +6,10 @@ G-Code generator is an application intended to generate a g-code file to test an
 
 Once generated a g-code with the desired settings, the file must be printed, and the geometric features of the obtained shape must be analyzed. The mismatch of the printed shape with the designed one will give useful information to correct the printing parameters or to reformulate the ink.  
 The software is distributed *'as is'*, and no responsibily is taken from possible damage to the printer caused by its misuse.  
-The software is licenced under (SEGLIERE LA LICENZA E AGGIUNGERE DETTAGLI) and it can freely used, modified, and redistributed.  
+The software is licenced under under the terms of the GNU GPLv3.  
 If you use it in your scientific research, please cite:
-(aggiungere rif. all'articolo)
+_Luzzi, E., de Salzano de Luna, M., Caputo, D., Filippone, G., & Aprea, P. (2025). Printability Metrics in Direct Ink Writing: Critical Review of the Literature and Novel Perspective Based on Dimensional Analysis. Advanced Materials Technologies, e01282._
+https://doi.org/10.1002/admt.202501282
 ## Installation
 ### Prerequisites
 1. Python >=3.13
