@@ -35,7 +35,7 @@ class Segment:
         return list(zip(self.x_coords,self.y_coords))
     
     @property
-    def trace_info(self) -> list[dict[float,float,float]]:
+    def trace_info(self) -> list[dict[str,float]]:
         """Return the coordinates and filament diameter of each segment point
 
         Returns:

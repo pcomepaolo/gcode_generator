@@ -15,12 +15,12 @@ class Printer:
 
     def print_cad(
             self,
-            sketch_coordinates:dict[float,list[float,float,float]]
+            sketch_coordinates:list[dict]
             ) -> list[dict]:
         """Prints the instruction contained in a sketch.
 
         Args:
-            sketch_coordinates (dict[float,list[float,float,float]]): _description_Dictionary containing the heigth and x,y,filament diameter of each sketch point
+            sketch_coordinates (dict[float,list[float]]): _description_Dictionary containing the heigth and x,y,filament diameter of each sketch point
 
         Returns:
             list[dict]: the instructions to be converted in g-code language

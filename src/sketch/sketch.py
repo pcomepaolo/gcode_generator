@@ -3,7 +3,7 @@ class Sketch:
     def __init__(
             self,
             layer_height:float,
-            number_of_layers:float,
+            number_of_layers:int,
             ) -> None:
         """Class representing the sketch to be printed.
 
@@ -18,12 +18,8 @@ class Sketch:
 
     def gen_coordinates(
             self
-            ) -> dict[float,list[float,float,float]]:
-        """Generates the coordinates and filament diameters of each point of the sketch
-
-        Returns:
-            dict[float,list[float,float,float]]: Dictionary containing the heigth and x,y,filament diameter of each sketch point
-        """
+            ) -> None:
+        """Generates the coordinates and filament diameters of each point of the sketch"""
         height = self.layer_height
         for layer in self.layer_sequence:
             self.coordinates.append(

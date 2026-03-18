@@ -33,9 +33,11 @@ class GCodeGenerator:
             instructions (list): the set of instructions
         """
         self.gcode+=self.head
+        self.gcode+="\n\n"
         if instructions is not None:
             for coordinate in instructions:
                 self.gcode+=self.gen_gcode_line(coordinate)
+        self.gcode+="\n"
         self.gcode+=self.tail
 
     def gen_gcode_line(

@@ -1,6 +1,8 @@
+
+
 import marimo
 
-__generated_with = "0.12.8"
+__generated_with = "0.13.2"
 app = marimo.App(
     width="medium",
     app_title="G-Code Generator",
@@ -84,13 +86,7 @@ def sketch_settings(mo, settings):
         number_of_layers=number_of_layers,
         print_segment=print_segment
     )
-    return (
-        layer_height,
-        layer_width,
-        number_of_layers,
-        print_segment,
-        sketch_settings,
-    )
+    return (sketch_settings,)
 
 
 @app.cell
@@ -140,16 +136,7 @@ def serpentine_settings(mo, settings):
         y_pos=y_pos,
         centered_serpentine=centered_serpentine,
     )
-    return (
-        centered_serpentine,
-        constant_pitch,
-        min_pitch,
-        serpentine_settings,
-        x_pos,
-        x_width,
-        y_pos,
-        y_width,
-    )
+    return (serpentine_settings,)
 
 
 @app.cell
@@ -174,7 +161,7 @@ def segment_settings(mo, settings):
         segment_y_pos=segment_y_pos,
         centered_segment=centered_segment
     )
-    return centered_segment, segment_settings, segment_y_pos
+    return (segment_settings,)
 
 
 @app.cell
@@ -261,21 +248,7 @@ def printer_settings(mo, settings):
         last_inlet_diameter=last_inlet_diameter,
         purge_nozzle=purge_nozzle,
     )
-    return (
-        first_inlet_diameter,
-        last_inlet_diameter,
-        lift_distance,
-        moving_speed,
-        plate_shape,
-        plate_size,
-        printer_settings,
-        printing_speed,
-        purge_nozzle,
-        retraction,
-        x_home,
-        y_home,
-        z_home,
-    )
+    return (printer_settings,)
 
 
 @app.cell
@@ -321,14 +294,7 @@ def purge_segment_settings(mo, settings):
         purge_inlet_diameter=purge_inlet_diameter,
         is_vertical=is_vertical,
     )
-    return (
-        is_vertical,
-        length,
-        purge_inlet_diameter,
-        purge_segment_settings,
-        purge_x,
-        purge_y,
-    )
+    return (purge_segment_settings,)
 
 
 @app.cell
@@ -359,7 +325,7 @@ def gcode_settings(mo, settings):
         gcode_head=gcode_head,
         gcode_tail=gcode_tail,
     )
-    return filename, gcode_head, gcode_settings, gcode_tail
+    return (gcode_settings,)
 
 
 @app.cell
@@ -384,7 +350,7 @@ def input_cell(
         label='Settings'
     )
     settings_tabs
-    return (settings_tabs,)
+    return
 
 
 @app.cell
@@ -416,14 +382,7 @@ def plot_sketch(
         align='stretch',
         justify='center',
     )
-    return (
-        plate_x,
-        plate_y,
-        plot,
-        plot_area,
-        purge_segment_coords,
-        segment_coords,
-    )
+    return (plot_area,)
 
 
 @app.cell
@@ -451,7 +410,7 @@ def _(mo, plot_area, segments_info_area):
         label='Sketch'
     )
     sketch_tabs
-    return (sketch_tabs,)
+    return
 
 
 @app.cell
@@ -481,7 +440,7 @@ def serpentine_instantiation(
         first_inlet_diameter=printer_settings.value['first_inlet_diameter'],
         last_inlet_diameter=printer_settings.value['last_inlet_diameter'],
         )
-    return actual_serpentine_x_pos, actual_serpentine_y_pos, serpentine
+    return (serpentine,)
 
 
 @app.cell
@@ -499,7 +458,7 @@ def segment_instantiation(
         length=serpentine.width,
         inlet_diameter=printer_settings.value['first_inlet_diameter']
     )
-    return segment, shift
+    return (segment,)
 
 
 @app.cell
@@ -554,8 +513,8 @@ def gen_sketch_coordinates(sketch):
 
 
 @app.cell
-def nozzle_instantiation(Nozzle, printer_settings, sketch_settings):
-    nozzle = Nozzle(
+def nozzle_instantiation():
+    """nozzle = Nozzle(
             x_home=printer_settings.value['x_home'],
             y_home=printer_settings.value['y_home'],
             z_home=printer_settings.value['z_home'],
@@ -565,14 +524,14 @@ def nozzle_instantiation(Nozzle, printer_settings, sketch_settings):
             lift_distance=printer_settings.value['lift_distance'],
             moving_speed=printer_settings.value['moving_speed'],
             printing_speed=printer_settings.value['printing_speed'],
-        )
-    return (nozzle,)
+        )"""
+    return
 
 
 @app.cell
-def printer_instantiation(Printer, nozzle):
-    printer = Printer(nozzle)
-    return (printer,)
+def printer_instantiation():
+    # printer = Printer(nozzle)
+    return
 
 
 @app.cell
@@ -613,7 +572,7 @@ def _(
         instructions = []
         if printer_settings.value['purge_nozzle'] is True:
             instructions.append(printer.print_cad(purge_sketch.coordinates))
-        instructions = printer.print_cad(sketch.coordinates)
+        instructions.append(printer.print_cad(sketch.coordinates))
         gcode_generator = GCodeGenerator(
             filename=gcode_settings.value['filename'],
             gcode_head=gcode_settings.value['gcode_head'],

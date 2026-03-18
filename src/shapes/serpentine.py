@@ -73,9 +73,33 @@ class Serpentine:
         for i in range(len(self.x_coords)):
             self.y_coords.append(self.y_pos + coords[i]*mask[i%4])
     
-    def _gen_filament_diameters(self,first_inlet_diameter,last_inlet_diameter) -> None:
-        diameter_increment = (last_inlet_diameter - first_inlet_diameter)/(self.number_of_segments-2)
-        self.filament_diameters = [round(first_inlet_diameter + diameter_increment*i,3) for i in range(self.number_of_segments)]
+    def _gen_filament_diameters(self, first_inlet_diameter, last_inlet_diameter) -> None:
+        """Generates the filament diameter for each point of the serpentine.
+
+        The diameter interpolates linearly between first_inlet_diameter and
+        last_inlet_diameter across the vertical segments only.
+        Each pair of consecutive points shares the same vertical segment,
+        so the diameter is assigned per-pair of points (step = 2).
+
+        Bug fix: the original code divided by (number_of_segments - 2), which
+        counted all trajectory points instead of the number of vertical segments.
+        The correct divisor is (number_of_vertical_segments - 1), where
+        number_of_vertical_segments = number_of_points / 2.
+        """
+        n_points = self.number_of_segments  # total points in the path
+        n_vertical = n_points // 2          # number of vertical segments
+
+        if n_vertical <= 1:
+            # Edge case: single segment — all points get first_inlet_diameter
+            self.filament_diameters = [first_inlet_diameter] * n_points
+            return
+
+        self.filament_diameters = []
+        for i in range(n_points):
+            # Which vertical segment does this point belong to?
+            seg_index = i // 2
+            diameter = first_inlet_diameter + (last_inlet_diameter - first_inlet_diameter) * seg_index / (n_vertical - 1)
+            self.filament_diameters.append(round(diameter, 3))
 
     def save_serpentine_info(
             self,
@@ -112,11 +136,11 @@ class Serpentine:
         return list(zip(self.x_coords, self.y_coords))
     
     @property
-    def trace_info(self) -> list[dict[float,float,float]]:
+    def trace_info(self) -> list[dict[str,int|float]]:
         """Return the coordinates and filament diameter of each serpentine point
 
         Returns:
-            list[dict[float,float,float]]: List of dictionaries containing the 'x', 'y' and 'filament_diameter' value of each serpentine point
+            list[dict[float,str,int|float]]: List of dictionaries containing the 'x', 'y' and 'filament_diameter' value of each serpentine point
         """
         trace_info = []
         for i in range(len(self.x_coords)):
@@ -131,11 +155,11 @@ class Serpentine:
         return trace_info
     
     @property
-    def vertical_segments_info(self) -> list[dict[float,float,float]]:
+    def vertical_segments_info(self) -> list[dict[str,int|float]]:
         """Returns the information about the vertical segments (filament diameter, distance from previous segment)
 
         Returns:
-            list[dict[float,float,float,float]]: List of dictionaries indicating number, x position, filament diameter and distance from previous segment of each vertical segment
+            list[dict[str,int|float]]: List of dictionaries indicating number, x position, filament diameter and distance from previous segment of each vertical segment
         """
         info = [
             {

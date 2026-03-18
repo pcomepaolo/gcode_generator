@@ -1,12 +1,12 @@
 def set_position(
         plate_shape:str,
-        plate_size:str,
+        plate_size:float,
         is_centered:bool,
         x_pos:float,
         y_pos:float,
         x_width:float,
         y_width:float,
-        ) -> list[float]:
+        ) -> tuple[float,float]:
     """Function that sets the position of the first point of the serpentine depending on:
         - plate geometry 
         - nozzle home position

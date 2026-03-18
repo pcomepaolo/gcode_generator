@@ -105,12 +105,12 @@ class Nozzle:
 
     def print(
             self,
-            point:dict[float]
+            point:dict[str,float]
             ) -> None:
         """Generate the instruction to print a segment
 
         Args:
-            point (dict[float]): the end coordinates and filament diameter of the segment to be printed
+            point (dict[str,float]): the end coordinates and filament diameter of the segment to be printed
         """
         volume = self.volume_to_extrude(point)
         self.extrude(volume)
